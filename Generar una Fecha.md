@@ -267,7 +267,7 @@ Las opciones que acepta el constructor como segundo parámetro son:
   second: 'numeric' | '2-digit',
   timeZoneName: 'short' | 'long',
   timeZone: 'Asia/Shanghai', // HUSO De horario expresado
-  hour12: true, | false // Forzar formato 12hrs o 24hrs
+  hour12: true | false, // Forzar formato 12hrs o 24hrs
   
   dateStyle: 'long | medium | short',
   timeStyle: 'long | medium | short',
