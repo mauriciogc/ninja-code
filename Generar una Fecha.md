@@ -1,33 +1,67 @@
 # Generar una Fecha 
 
-### Descripción
+## Descripción
 En un principio `toLocaleDateString` dependia únicamente de la implementación y configuración de los navegadores, entonces, cuando se agregó la compatibilidad con el objeto `Intl` *(ECMAScript2015)*, se permitió que `toLocaleDateString` aceptara las mismas opciones.
 
 El objeto `Intl` contiene métodos y constructores de la *API de internalización de ECMAScript*, es decir, tiene características no solo para *convertir fechas*, si no también *cadenas* y *números*.
 
-### Sintaxis básica
+## Sintaxis
 
+La sintaxis básica es la siguiente:
 ```javascript
-new Intl.DateTimeFormat().format();
+new Intl.DateTimeFormat();
 ```
 
-La instancia del constructor `DateTimeFormat` tiene un *método* llamado `format` que es el encargado de devolver con formato una fecha dada, ejemplo: 
+La instancia del constructor `DateTimeFormat` tiene los siguientes métodos: 
+- `resolvedOptions`
+- `format`
+- `formatToParts`
+- `formatRange`
+
+### `DateTimeFormat.resolvedOptions()`
+
+`resolvedOptions` es el encargado de devolver la configuración que tenemos en el navegador con relación a internalización
+
+```javascript
+console.log(new Intl.DateTimeFormat().resolvedOptions());
+/* 
+{
+  calendar: "gregory"
+  day: "numeric"
+  locale: "es-MX"
+  month: "numeric"
+  numberingSystem: "latn"
+  timeZone: "America/Mexico_City"
+  year: "numeric"
+}
+*/
+```
+
+### `DateTimeFormat.format()`
+
+`format` es el encargado de devolver una fecha con un formato por default o especificado: 
+```javascript
+console.log(new Intl.DateTimeFormat().format()); //16/2/2022
+```
+> **Importante:** Si utilizamos la forma básica, este nos devolverá la fecha de hoy con el formato que tiene por default el navegador.
+
+El método format acepta de parámetro una fecha:
 
 ```javascript
 let date = new Date('Wed Feb 10 2022 20:56:26 GMT-0600');
 console.log(new Intl.DateTimeFormat().format(date)); //10/2/2022
 ```
-> **Importante:** Si no le mandamos alguna fecha al método `format`, este nos va a devolver la fecha de hoy con el formato del navegador.
 
 Para darle un formato más específico a la fecha, haremos uso de los dos posibles parámetros que usa el constructor `DateTimeFormat`:
-- *locales*: Cadena o arreglo de cadenas que representan etiquetas de idioma (si no se agrega por default toma la del navegador)
-- *options*: Propiedades que se utilizan para personalizar la salida
+- *locales* 
+- *options* 
 
 ```javascript
 new Intl.DateTimeFormat(locales, options).format(date);
 ```
 
 #### Locales
+Cadena o arreglo de cadenas que representan etiquetas de idioma (si no se agrega por default toma la del navegador)
 
 ```javascript
 console.log(new Intl.DateTimeFormat('en-GB').format(date)); // 16/02/2022
@@ -252,9 +286,7 @@ A continuación te dejo una lista con mas locales:
 
 
 #### Options
-
-Las opciones que acepta el constructor como segundo parámetro son:
-
+Propiedades que se utilizan para personalizar la salida. Las opciones que acepta el constructor como segundo parámetro son:
 ```javascript
 {
   weekday: 'narrow' | 'short' | 'long',
@@ -275,37 +307,95 @@ Las opciones que acepta el constructor como segundo parámetro son:
 
 ```
 
-Veamos algunos ejemplos: 
-
-Tomaremos de referencia esta fecha:
+Ocuparemos `es-MX`, para que regrese el formato en español de México.
 ```javascript
 let date = new Date('Wed Feb 6 2022 20:56:26 GMT-0600');
-```
-
-Vamos a ocupar tipo `es-MX`, para que nos regrese el formato en español de México:
-```javascript
 console.log(new Intl.DateTimeFormat('es-MX').format(date)); //output 6/2/2022
 ```
 
-Vamos a construir uno que tenga el día numérico a 1 dígito, que el mes sea la palabra completa y el año este a 4 dígitos:
+Crear una fecha con el siguiente formato: Que tenga el día numérico a 1 dígito, que el mes sea la palabra completa y el año este a 4 dígitos.
 ```javascript
+let date = new Date('Wed Feb 6 2022 20:56:26 GMT-0600');
 const options = { day: 'numeric', month: 'long', year: 'numeric' };
 console.log(new Intl.DateTimeFormat('es-MX', options).format(date));
 //output 6 de febrero de 2022
 ```
 
-Vamos a construir uno que tenga el día numérico a 2 dígitos, que el mes este abreviado y nos muestre la hora en formato de 24hrs:
+Con el formato británico `en-GB`.
 ```javascript
+let date = new Date('Wed Feb 6 2022 20:56:26 GMT-0600');
+const options = { day: 'numeric', month: 'long', year: 'numeric' };
+console.log(new Intl.DateTimeFormat('en-GB', options).format(date));
+//output 6 February 2022 at 20:56:26 GMT-6
+```
+
+Crear una fecha con el siguiente formato: Que tenga el día numérico a 2 dígitos, que el mes este abreviado y nos muestre la hora en formato de 24hrs.
+```javascript
+let date = new Date('Wed Feb 6 2022 20:56:26 GMT-0600');
 const options = { day: "2-digit", month: "short",  timeStyle: "long" };
 console.log(new Intl.DateTimeFormat('es-MX', options).format(date));
 //output 06-feb. 20:56:26
 ```
 
-Tenemos dos propiedades que va a simplificar un poco el resultado, veamos: 
+Con las propiedades `dateStyle` y `timeStyle`, se puede crear de manera sencilla.
 ```javascript
+let date = new Date('Wed Feb 6 2022 20:56:26 GMT-0600');
 const options = {dateStyle: "long", timeStyle: "long" };
 console.log(new Intl.DateTimeFormat('es-MX', options).format(date));
 // 6 de febrero de 2022, 20:56:26 GMT-6
 ```
 
+### `DateTimeFormat.formatToParts()`
 
+`formatToParts` es el encargado de devolver una fecha en un arreglo de objetos: 
+```javascript
+console.log(new Intl.DateTimeFormat().formatToParts());
+/*
+[
+  0: {type: 'day', value: '17'}
+  1: {type: 'literal', value: '/'}
+  2: {type: 'month', value: '2'}
+  3: {type: 'literal', value: '/'}
+  4: {type: 'year', value: '2022'}
+]
+*/
+
+```
+
+Crear una fecha con el siguiente formato: Que tenga el día numérico a 1 dígito, que el mes sea la palabra completa y el año este a 4 dígitos.
+```javascript
+let date = new Date('Wed Feb 6 2022 20:56:26 GMT-0600');
+const options = { day: 'numeric', month: 'long', year: 'numeric' };
+console.log(new Intl.DateTimeFormat('es-MX', options).formatToParts(date));
+/*
+[
+  0: {type: 'day', value: '6'}
+  1: {type: 'literal', value: ' de '}
+  2: {type: 'month', value: 'febrero'}
+  3: {type: 'literal', value: ' de '}
+  4: {type: 'year', value: '2022'}
+]
+*/
+```
+
+### `DateTimeFormat.formatRange()`
+
+`formatRange` es el encargado de devolver un rango de fechas dados, con un formato por default o especificado: 
+
+```javascript
+let date = new Date('Wed Feb 6 2022 20:56:26 GMT-0600')
+let date2 = new Date('Thu Feb 17 2022 11:59:14 GMT-0600');
+
+console.log(new Intl.DateTimeFormat('es-MX').formatRange(date, date2));
+//output 6/2/2022 – 17/2/2022
+```
+
+Con opciones: 
+```javascript
+let date = new Date('Wed Feb 6 2022 20:56:26 GMT-0600')
+let date2 = new Date('Thu Feb 17 2022 11:59:14 GMT-0600');
+
+const options = { dateStyle: 'long' };
+console.log(new Intl.DateTimeFormat('es-MX', options).formatRange(date, date2));
+//output 6–17 de febrero de 2022
+```
