@@ -1,17 +1,19 @@
-# Generar una Fecha 
+# Generar una Fecha
 
 ## Descripción
-El objeto `Intl.NumberFormat` es un constructor de objetos que permiten el formato de números sensibles al idioma.
 
+El objeto `Intl.NumberFormat` es un constructor de objetos que permiten el formato de números sensibles al idioma.
 
 ## Sintaxis
 
 La sintaxis básica es la siguiente:
+
 ```javascript
 new Intl.NumberFormat();
 ```
 
-La instancia del constructor `NumberFormat` tiene los siguientes métodos: 
+La instancia del constructor `NumberFormat` tiene los siguientes métodos:
+
 - `resolvedOptions`
 - `format`
 - `formatToParts`
@@ -39,23 +41,27 @@ console.log(new Intl.NumberFormat().resolvedOptions());
 
 ### `NumberFormat.format()`
 
-`format` es el encargado de devolver un número con un formato por default o especificado: 
+`format` es el encargado de devolver un número con un formato por default o especificado:
+
 ```javascript
 console.log(new Intl.NumberFormat().format(10000)); // 10,000
-console.log(new Intl.NumberFormat().format("10000")); // 10,000
+console.log(new Intl.NumberFormat().format('10000')); // 10,000
 ```
-> **Importante:** Si utilizamos la forma básica, este nos devolverá el número con el formato que tiene por default el navegador. 
+
+> **Importante:** Si utilizamos la forma básica, este nos devolverá el número con el formato que tiene por default el navegador.
 > **Recuerda**: No olvides que puede aceptar números con el tipo de dato `number` o `string`.
 
 Para darle un formato más específico al número, haremos uso de los dos posibles parámetros que usa el constructor `DateTimeFormat`:
-- *locales* 
-- *options* 
+
+- _locales_
+- _options_
 
 ```javascript
 new Intl.NumberFormat(locales, options).format(number);
 ```
 
 #### Locales
+
 Cadena o arreglo de cadenas que representan etiquetas de idioma (si no se agrega por default toma la del navegador)
 
 ```javascript
@@ -265,15 +271,15 @@ A continuación te dejo una lista con mas locales:
 | zh-TW       | 10,000,000  |
 | zu-ZA       | 10,000,000  |
 
-
-
 #### Options
+
 Propiedades que se utilizan para personalizar la salida. Las opciones que acepta el constructor como segundo parámetro son:
+
 ```javascript
 {
     notation: 'standard | scientific | engineering | compact',
     compactDisplay: 'short | long', // Utilizar si notation:compact,
-    
+
     style: 'currency | decimal | percent | unit',
     currency: 'USD | EUR | CNY | MXN ...', //Utilizar si style:currency,
     currencyDisplay: 'symbol | code | name',
@@ -283,40 +289,43 @@ Propiedades que se utilizan para personalizar la salida. Las opciones que acepta
     maximumFractionDigits: '0-21 digitos',
     minimumSignificantDigits: '1-21 digitos',
     maximumSignificantDigits: '1-21 digitos',
-    
+
     unit: 'kilometer | meter | centimeter | liter ...',
     unitDisplay: 'long | short'
 }
 ```
 
 Vamos a construir la cantidad en moneda mexicana.
+
 ```javascript
 const number = 1234567890.1234;
 const options = {
-    style: "currency",
-    currency: "MXN"
+  style: 'currency',
+  currency: 'MXN',
 };
 console.log(new Intl.NumberFormat('es-MX', options).format(number)); //$1,234,567,890.12
 ```
 
 Vamos a construir la cantidad en moneda europea, pero con dos tipos de locale (Mexicano y Español).
+
 ```javascript
 const number = 1234567890.1234;
 const options = {
-    style: 'currency',
-    currency: 'EUR'
+  style: 'currency',
+  currency: 'EUR',
 };
 console.log(new Intl.NumberFormat('es-MX', options).format(number)); // EUR 1,234,567,890.12
 console.log(new Intl.NumberFormat('es-ES', options).format(number)); // 1.234.567.890,12 €
 ```
 
 Vamos a construir una cantidad que nos diga el formato de la moneda, pero no como símbolo.
+
 ```javascript
 const number = 1234567890.1234;
 const options = {
-    style: 'currency',
-    currency: 'MXN',
-    currencyDisplay: 'name',
+  style: 'currency',
+  currency: 'MXN',
+  currencyDisplay: 'name',
 };
 console.log(new Intl.NumberFormat('es-MX', options).format(number)); // 1,234,567,890.12 pesos mexicanos
 console.log(new Intl.NumberFormat('es-ES', options).format(number)); // 1.234.567.890,12 pesos mexicanos
@@ -325,22 +334,24 @@ console.log(new Intl.NumberFormat('es-ES', options).format(number)); // 1.234.56
 > **Nota:** Para ver todos los formatos currency [link](https://www.six-group.com/en/products-services/financial-information/data-standards.html#scrollTo=maintenance-agency)
 
 Vamos a construir una cantidad que nos devuelva al menos 4 digitos decimales.
+
 ```javascript
 const number = 1234567890.1234;
 const options = {
-    minimumFractionDigits: 4
+  minimumFractionDigits: 4,
 };
 
 console.log(new Intl.NumberFormat('es-MX', options).format(number)); //1,234,567,890.1234
 ```
 
 Vamos a construir una cantidad con las unidades de kilometros.
+
 ```javascript
 const number = 1234567890.1234;
 const options = {
-    style: 'unit',
-    unit: 'kilometer',
-    unitDisplay: 'long'
+  style: 'unit',
+  unit: 'kilometer',
+  unitDisplay: 'long',
 };
 
 console.log(new Intl.NumberFormat('es-MX', options).format(number)); // 1,234,567,890.123 kilómetros
@@ -348,10 +359,10 @@ console.log(new Intl.NumberFormat('es-MX', options).format(number)); // 1,234,56
 
 > Para ver todas las unidades [link](https://tc39.es/proposal-unified-intl-numberformat/section6/locales-currencies-tz_proposed_out.html#sec-issanctionedsimpleunitidentifier)
 
-
 ### `NumberFormat.formatToParts()`
 
 `formatToParts` es el encargado de devolver una cantidad en un arreglo de objetos, veamos un ejemplo:
+
 ```javascript
 const number = 1234567890.1234;
 console.log(new Intl.NumberFormat().formatToParts(number));
@@ -369,5 +380,3 @@ console.log(new Intl.NumberFormat().formatToParts(number));
 ]
 */
 ```
-
-

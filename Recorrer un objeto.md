@@ -2,8 +2,7 @@
 
 ## Descripción
 
-`Object` es la clase que representa un tipo de dato de JavaScript, es usado para guardar una colección de datos definidos y entidades complejas. 
-
+`Object` es la clase que representa un tipo de dato de JavaScript, es usado para guardar una colección de datos definidos y entidades complejas.
 
 ## Sintaxis
 
@@ -12,7 +11,6 @@ Para tratar un objeto como un arreglo, la clase `Object` tiene 3 métodos:
 - `Object.keys`
 - `Object.values`
 - `Object.entries`
-
 
 ### `Object.keys()`
 
@@ -23,9 +21,9 @@ const person = {
   name: 'Mauricio',
   firstName: 'García',
   lastName: 'Camacho',
-  gender: "male",
+  gender: 'male',
   dob: '12 Junio',
-  phone: "011-962-7516",
+  phone: '011-962-7516',
 };
 
 console.log(Object.keys(person));
@@ -43,9 +41,9 @@ const person = {
   name: 'Mauricio',
   firstName: 'García',
   lastName: 'Camacho',
-  gender: "male",
+  gender: 'male',
   dob: '12 Junio',
-  phone: "011-962-7516",
+  phone: '011-962-7516',
 };
 
 console.log(Object.values(person));
@@ -63,9 +61,9 @@ const person = {
   name: 'Mauricio',
   firstName: 'García',
   lastName: 'Camacho',
-  gender: "male",
+  gender: 'male',
   dob: '12 Junio',
-  phone: "011-962-7516",
+  phone: '011-962-7516',
 };
 
 const arrPerson = Object.entries(person);
@@ -94,9 +92,8 @@ phone 011-962-7516
 ## Ventajas
 
 Algunas ventajas de usar la clase `Object` y sus métodos `keys`, `values` o `entries`:
+
 - Obtenemos de manera sencilla solo las claves.
-- Obteneos de manera sencilla solo los valores.
+- Obtenemos de manera sencilla solo los valores.
 - No debemos de preocuparnos por las propiedades enumeradas de prototype.
 - Puede ser tratado como un arreglo.
-
-
