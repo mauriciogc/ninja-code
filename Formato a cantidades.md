@@ -1,4 +1,4 @@
-# Generar una Fecha
+# Formato a cantidades
 
 ## Descripción
 
